@@ -3,11 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Tempo de geração: 08-Maio-2026 às 16:00
+-- Tempo de geração: 12-Maio-2026 às 08:16
 -- Versão do servidor: 8.4.9
 -- versão do PHP: 8.3.26
 
-SET FOREIGN_KEY_CHECKS=0;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -41,7 +41,20 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id`, `nif`, `nome`, `email`, `telefone`) VALUES
-(2, '', 'Tiago', 'a14859@oficina.pt', '910566574');
+(7, '157809323', 'Tiago Daniel da Silva Dias', 'a14859@oficina.pt', '910566574');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `produtos`
+--
+
+CREATE TABLE `produtos` (
+  `id` int NOT NULL,
+  `RefProduto` varchar(100) DEFAULT NULL,
+  `produto` varchar(100) DEFAULT NULL,
+  `preco` double(20,0) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Índices para tabelas despejadas
@@ -54,6 +67,12 @@ ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `produtos`
+--
+ALTER TABLE `produtos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de tabelas despejadas
 --
 
@@ -61,8 +80,13 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-SET FOREIGN_KEY_CHECKS=1;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de tabela `produtos`
+--
+ALTER TABLE `produtos`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
