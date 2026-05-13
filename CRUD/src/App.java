@@ -153,6 +153,7 @@ public class App {
 
                         <h2>Lista de Produtos</h2>
                         <a href='/novo-produto'>+ Novo Produto</a><br><br>
+                        <a href='/'>Voltar ao Menu Inicial</a><br><br>
 
                         <table>
 
@@ -237,6 +238,7 @@ public class App {
 
                         <h2>Lista de Clientes</h2>
                         <a href='/novo'>+ Novo Cliente</a><br><br>
+                        <a href='/'>Voltar ao Menu Inicial</a><br><br>
 
                         <table>
 
@@ -886,7 +888,7 @@ public class App {
 
                 String[] params = body.split("&");
                 String idStr = "";
-                String refProduto = "";
+                String referencia = "";
                 String produto = "";
                 double preco = 0.0;
 
@@ -903,8 +905,8 @@ public class App {
                                 idStr = value;
                                 break;
 
-                            case "refProduto":
-                                refProduto = value;
+                            case "referencia":
+                                referencia = value;
                                 break;
 
                             case "produto":
@@ -927,10 +929,10 @@ public class App {
                     throw new Exception("Ligação à BD falhou!");
                 }
 
-                String sql = "UPDATE produtos SET refProduto=?, produto=?, preco=? WHERE id=?";
+                String sql = "UPDATE produtos SET referencia=?, produto=?, preco=? WHERE id=?";
                 PreparedStatement ps = con.prepareStatement(sql);
 
-                ps.setString(1, refProduto);
+                ps.setString(1, referencia);
                 ps.setString(2, produto);
                 ps.setDouble(3, preco);
                 ps.setInt(4, id);
