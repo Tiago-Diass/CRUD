@@ -131,7 +131,7 @@ public class App {
         // LISTA DE PRODUTOS
         server.createContext("/produtos", exchange -> {
 
-            StringBuilder html = new StringBuilder();
+            StringBuilder html = new StringBuilder(); // Usamos StringBuilder para construir o HTML dinamicamente com os dados da BD
 
             html.append("""
                         <html>
@@ -167,7 +167,7 @@ public class App {
 
                     """);
 
-            Connection con = LigacaoBD.ligar();
+            Connection con = LigacaoBD.ligar(); // Ligar à base de dados
 
             if (con == null) {
                 System.out.println("Erro: ligação falhou!");
@@ -176,8 +176,8 @@ public class App {
 
             try {
 
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery("SELECT * FROM produtos");
+                Statement st = con.createStatement(); // Criar um Statement para executar a query
+                ResultSet rs = st.executeQuery("SELECT * FROM produtos"); // Executar a query para obter todos os produtos
 
                 while (rs.next()) {
                     int id = rs.getInt("id");
@@ -207,10 +207,10 @@ public class App {
                         </html>
                     """);
 
-            exchange.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
-            exchange.sendResponseHeaders(200, html.toString().getBytes().length);
-            exchange.getResponseBody().write(html.toString().getBytes());
-            exchange.close();
+            exchange.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8"); // Definir o tipo de conteúdo da resposta para HTML
+            exchange.sendResponseHeaders(200, html.toString().getBytes().length); // Enviar os cabeçalhos da resposta com o status 200 e o comprimento do conteúdo
+            exchange.getResponseBody().write(html.toString().getBytes()); // Escrever o conteúdo HTML no corpo da resposta
+            exchange.close(); // Fechar a troca de mensagens
         });
 
         // LISTA DE CLIENTES
@@ -433,8 +433,8 @@ public class App {
                     String[] kv = p.split("=");
 
                     if (kv.length == 2) {
-                        String key = kv[0];
-                        String value = java.net.URLDecoder.decode(kv[1], "UTF-8");
+                        String key = kv[0]; // obter o nome do campo (referencia, produto, preco)
+                        String value = java.net.URLDecoder.decode(kv[1], "UTF-8"); // obter o valor do campo e decodificar
 
                         switch (key) {
                             case "referencia":
@@ -460,9 +460,9 @@ public class App {
                     throw new Exception("Ligação à BD falhou!");
                 }
 
-                String sql = "INSERT INTO produtos(referencia,produto,preco) VALUES (?,?,?)";
+                String sql = "INSERT INTO produtos(referencia,produto,preco) VALUES (?,?,?)"; // Query SQL para inserir um novo produto na tabela
 
-                PreparedStatement ps = con.prepareStatement(sql);
+                PreparedStatement ps = con.prepareStatement(sql); // Criar um PreparedStatement para executar a query com parâmetros
                 ps.setString(1, referencia);
                 ps.setString(2, produto);
                 ps.setDouble(3, preco);
@@ -658,13 +658,13 @@ public class App {
             StringBuilder html = new StringBuilder();
 
             try {
-                String query = exchange.getRequestURI().getQuery();
+                String query = exchange.getRequestURI().getQuery(); // Obter a query string da URL (ex: "id=5")
 
                 if (query == null || !query.contains("id=")) {
                     throw new Exception("ID inválido");
                 }
 
-                int id = Integer.parseInt(query.split("=")[1]);
+                int id = Integer.parseInt(query.split("=")[1]); // Extrair o valor do ID da query string
                 Connection con = LigacaoBD.ligar();
 
                 if (con == null) {
@@ -672,9 +672,9 @@ public class App {
                 }
 
                 String sql = "SELECT * FROM produtos WHERE id=?";
-                PreparedStatement ps = con.prepareStatement(sql);
+                PreparedStatement ps = con.prepareStatement(sql); // Criar um PreparedStatement para executar a query com um parâmetro (o ID do produto)
                 ps.setInt(1, id);
-                ResultSet rs = ps.executeQuery();
+                ResultSet rs = ps.executeQuery(); // Executar a query e obter o resultado
 
                 if (!rs.next()) {
                     throw new Exception("Produto não encontrado");
@@ -884,9 +884,9 @@ public class App {
             }
 
             try {
-                String body = new String(exchange.getRequestBody().readAllBytes(), "UTF-8");
+                String body = new String(exchange.getRequestBody().readAllBytes(), "UTF-8"); // Ler o corpo da requisição e convertê-lo para String usando UTF-8
 
-                String[] params = body.split("&");
+                String[] params = body.split("&"); // Dividir o corpo da requisição em parâmetros individuais usando o caractere '&' como separador
                 String idStr = "";
                 String referencia = "";
                 String produto = "";
@@ -922,15 +922,15 @@ public class App {
 
                 }
 
-                int id = Integer.parseInt(idStr);
+                int id = Integer.parseInt(idStr); // Converter o ID de String para inteiro para usar na query de atualização
                 Connection con = LigacaoBD.ligar();
 
                 if (con == null) {
                     throw new Exception("Ligação à BD falhou!");
                 }
 
-                String sql = "UPDATE produtos SET referencia=?, produto=?, preco=? WHERE id=?";
-                PreparedStatement ps = con.prepareStatement(sql);
+                String sql = "UPDATE produtos SET referencia=?, produto=?, preco=? WHERE id=?"; // Query SQL para atualizar o produto com os novos valores fornecidos no formulário
+                PreparedStatement ps = con.prepareStatement(sql); // Criar um PreparedStatement para executar a query de atualização com parâmetros
 
                 ps.setString(1, referencia);
                 ps.setString(2, produto);
