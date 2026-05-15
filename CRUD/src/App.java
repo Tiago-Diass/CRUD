@@ -1,5 +1,5 @@
 import com.sun.net.httpserver.HttpServer;
-import java.io.OutputStream;
+//import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -1298,8 +1298,8 @@ public class App {
             exchange.close();
         });
 
-        server.start();
-        System.out.println("Servidor em http://localhost:8080");
+        server.start(); // Iniciar o servidor para começar a aceitar requisições HTTP
+        System.out.println("Servidor em http://localhost:8080"); // Iniciar o servidor e imprimir a mensagem indicando onde ele está rodando
 
     }
 
