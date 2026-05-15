@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class App {
     public static void main(String[] args) throws Exception {
         HttpServer server = HttpServer.create(
-                new InetSocketAddress(8080), 0);
+                new InetSocketAddress(8082), 0); // Criar um servidor HTTP que escuta na porta 8082
 
         /// HOME
         server.createContext("/", exchange -> {
